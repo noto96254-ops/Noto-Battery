@@ -291,12 +291,12 @@ const App = () => {
                                     </li>
                                     <li className="font-black text-black dark:text-white" style={{ color: 'var(--text-color)' }}>
                                        <a 
-                                         href="https://wa.me/919592881227?text=Hi NOTO Team, I am interested in your batteries and would like to know more." 
+                                         href="https://wa.me/917658039061?text=Hi NOTO Team, I am interested in your batteries and would like to know more." 
                                          target="_blank" 
                                          rel="noopener noreferrer"
                                          className="hover:text-primary-color transition-colors"
                                        >
-                                         +91 95928-81227
+                                         +91 76580-39061
                                        </a>
                                     </li>
                                     <li className="hover:text-primary-color cursor-pointer font-black">
@@ -312,7 +312,7 @@ const App = () => {
 
                         {/* Floating WhatsApp Button */}
                         <a
-                           href="https://wa.me/919592881227?text=Hi, I want to inquire about NOTO Batteries"
+                           href="https://wa.me/917658039061?text=Hi, I want to inquire about NOTO Batteries"
                            target="_blank"
                            rel="noopener noreferrer"
                            className="fixed bottom-8 right-8 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50 flex items-center justify-center group"
