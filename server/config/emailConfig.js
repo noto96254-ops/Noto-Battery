@@ -1,10 +1,12 @@
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.resend.com',
+    secure: true,
+    port: 465,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: 'resend',
+        pass: process.env.RESEND_API_KEY
     },
     tls: {
         rejectUnauthorized: false
@@ -23,7 +25,7 @@ transporter.verify(function (error, success) {
 
 const sendOrderConfirmation = async (email, orderDetails) => {
     const mailOptions = {
-        from: `"NOTO Battery" <${process.env.EMAIL_USER}>`,
+        from: 'NOTO Battery <onboarding@resend.dev>', // Update this to Info@notobattery.com after domain verification
         to: email,
         subject: 'Order Confirmation - NOTO Battery',
         html: `
@@ -53,7 +55,7 @@ const sendOrderConfirmation = async (email, orderDetails) => {
 
 const sendOrderStatusUpdate = async (email, orderDetails) => {
     const mailOptions = {
-        from: `"NOTO Battery" <${process.env.EMAIL_USER}>`,
+        from: 'NOTO Battery <onboarding@resend.dev>', // Update this to Info@notobattery.com after domain verification
         to: email,
         subject: `Order Update: ${orderDetails.orderStatus} - NOTO Battery`,
         html: `
@@ -80,4 +82,3 @@ const sendOrderStatusUpdate = async (email, orderDetails) => {
 };
 
 module.exports = { sendOrderConfirmation, sendOrderStatusUpdate };
-
