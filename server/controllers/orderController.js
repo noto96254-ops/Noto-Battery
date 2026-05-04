@@ -57,7 +57,7 @@ exports.addOrderItems = async (req, res) => {
             }
             
             if (req.user.email) {
-                await sendOrderConfirmation(req.user.email, createdOrder);
+                sendOrderConfirmation(req.user.email, createdOrder);
             }
 
             res.status(201).json(createdOrder);
@@ -101,7 +101,7 @@ exports.updateOrderStatus = async (req, res) => {
             const updatedOrder = await order.save();
             
             if (order.user && order.user.email) {
-                await sendOrderStatusUpdate(order.user.email, updatedOrder);
+                sendOrderStatusUpdate(order.user.email, updatedOrder);
             }
 
             res.json(updatedOrder);
