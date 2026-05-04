@@ -79,7 +79,7 @@ export const generateInvoicePDF = (order) => {
   doc.setFontSize(8);
   doc.setFont('helvetica', 'italic');
   doc.setTextColor('#999999');
-  doc.text('Thank you for choosing NOTO BATTERY. For support, contact support@notobattery.com', 105, 280, { align: 'center' });
+  doc.text('Thank you for choosing NOTO BATTERY. For support, contact Info@notobattery.com', 105, 280, { align: 'center' });
 
   doc.save(`Invoice_${order._id.slice(-6).toUpperCase()}.pdf`);
 };

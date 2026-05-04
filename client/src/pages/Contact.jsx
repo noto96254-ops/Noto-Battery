@@ -20,7 +20,7 @@ const Contact = () => {
               </div>
               <h3 className="text-xl font-black mb-2 uppercase">Email Us</h3>
               <p className="opacity-40 text-[10px] font-black uppercase tracking-widest mb-4">Official Brand Support</p>
-              <a href="mailto:notoldh@gmail.com" className="font-black text-primary-color hover:underline" style={{ color: 'var(--primary-color)' }}>notoldh@gmail.com</a>
+              <a href="mailto:Info@notobattery.com" className="font-black text-primary-color hover:underline" style={{ color: 'var(--primary-color)' }}>Info@notobattery.com</a>
            </div>
 
            <div className="card p-8 group">

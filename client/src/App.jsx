@@ -300,7 +300,7 @@ const App = () => {
                                        </a>
                                     </li>
                                     <li className="hover:text-primary-color cursor-pointer font-black">
-                                       <a href="mailto:notoldh@gmail.com">notoldh@gmail.com</a>
+                                       <a href="mailto:Info@notobattery.com">Info@notobattery.com</a>
                                     </li>
                                  </ul>
                               </div>

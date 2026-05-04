@@ -11,6 +11,15 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+// Verify connection configuration
+transporter.verify(function (error, success) {
+    if (error) {
+        console.log("◈ Nodemailer Verification Error:", error);
+    } else {
+        console.log("◇ Nodemailer is ready to send emails");
+    }
+});
+
 
 const sendOrderConfirmation = async (email, orderDetails) => {
     const mailOptions = {
@@ -34,10 +43,11 @@ const sendOrderConfirmation = async (email, orderDetails) => {
     };
 
     try {
-        await transporter.sendMail(mailOptions);
-        console.log('Confirmation email sent');
+        console.log(`◇ Attempting to send confirmation email to: ${email}`);
+        const info = await transporter.sendMail(mailOptions);
+        console.log('◇ Confirmation email sent:', info.messageId);
     } catch (error) {
-        console.error('Email error:', error);
+        console.error('◈ Confirmation Email error:', error);
     }
 };
 
@@ -61,10 +71,11 @@ const sendOrderStatusUpdate = async (email, orderDetails) => {
     };
 
     try {
-        await transporter.sendMail(mailOptions);
-        console.log('Status update email sent');
+        console.log(`◇ Attempting to send status update email to: ${email}`);
+        const info = await transporter.sendMail(mailOptions);
+        console.log('◇ Status update email sent:', info.messageId);
     } catch (error) {
-        console.error('Email error:', error);
+        console.error('◈ Status Update Email error:', error);
     }
 };
 
