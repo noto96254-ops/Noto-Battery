@@ -84,14 +84,24 @@ const Checkout = () => {
           description: "Battery Purchase",
           order_id: rpOrder.id,
           handler: async (response) => {
-            const { data: verifyData } = await API.post('/payment/verify', response);
-            if (verifyData.success) {
-              await API.post('/orders', {
-                ...orderData,
-                paymentId: response.razorpay_payment_id
-              });
-              clearCart();
-              setStep(3);
+            try {
+              console.log('◇ Payment Successful, verifying signature...');
+              const { data: verifyData } = await API.post('/payment/verify', response);
+              
+              if (verifyData.success) {
+                console.log('◇ Verification Success, creating order in DB...');
+                await API.post('/orders', {
+                  ...orderData,
+                  paymentId: response.razorpay_payment_id
+                });
+                clearCart();
+                setStep(3);
+              } else {
+                alert('Payment verification failed. Please contact support.');
+              }
+            } catch (err) {
+              console.error('◈ Error after payment success:', err);
+              alert('Something went wrong after payment. Please check your profile or contact us.');
             }
           },
           prefill: {
@@ -125,8 +135,8 @@ const Checkout = () => {
         </motion.div>
         <h1 className="text-4xl font-black mb-4">Order Placed!</h1>
         <p className="text-gray-500 mb-8">Thank you for your purchase. We've sent a confirmation email to you.</p>
-        <button onClick={() => { clearCart(); window.location.href = '/'; }} className="btn-primary">
-          Back to Home
+        <button onClick={() => { clearCart(); window.location.href = '/profile'; }} className="btn-primary">
+          View My Orders
         </button>
       </div>
     );
