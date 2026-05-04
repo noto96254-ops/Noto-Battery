@@ -13,13 +13,16 @@ exports.createRazorpayOrder = async (req, res) => {
     const { amount } = req.body;
     try {
         const options = {
-            amount: amount * 100, // amount in the smallest currency unit
+            amount: Math.round(amount * 100), // amount in the smallest currency unit
             currency: "INR",
             receipt: `receipt_${Date.now()}`,
         };
+        console.log('◇ Creating Razorpay Order with options:', options);
         const order = await razorpay.orders.create(options);
+        console.log('◇ Razorpay Order Created Successfully:', order.id);
         res.json(order);
     } catch (error) {
+        console.error('◈ Razorpay Order Creation Error:', error);
         res.status(500).json({ message: error.message });
     }
 };
