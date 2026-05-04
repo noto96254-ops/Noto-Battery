@@ -12,10 +12,13 @@ exports.addOrderItems = async (req, res) => {
         return res.status(400).json({ message: 'No order items' });
     } else {
         try {
+            console.log('◇ Creating Order in DB for user:', req.user._id);
+            
             // Verify stock availability first
             for (const item of products) {
                 const product = await Product.findById(item._id);
                 if (!product || product.countInStock < item.quantity) {
+                    console.error('◈ Stock verification failed for product:', item._id);
                     return res.status(400).json({ 
                         message: `Insufficient stock for ${item.title || 'one or more items'}. Available: ${product ? product.countInStock : 0}` 
                     });
@@ -39,6 +42,7 @@ exports.addOrderItems = async (req, res) => {
             });
 
             const createdOrder = await order.save();
+            console.log('◇ Order saved successfully in DB:', createdOrder._id);
 
             // Deduct Stock and Log
             for (const item of products) {
@@ -55,6 +59,7 @@ exports.addOrderItems = async (req, res) => {
                     });
                 }
             }
+            console.log('◇ Stock deducted successfully');
             
             if (req.user.email) {
                 sendOrderConfirmation(req.user.email, createdOrder);
@@ -62,6 +67,7 @@ exports.addOrderItems = async (req, res) => {
 
             res.status(201).json(createdOrder);
         } catch (error) {
+            console.error('◈ Order Creation Error:', error);
             res.status(500).json({ message: error.message });
         }
     }

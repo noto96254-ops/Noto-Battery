@@ -1,12 +1,15 @@
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // true for 465, false for other ports
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     },
     tls: {
+        // Do not fail on invalid certs
         rejectUnauthorized: false
     }
 });
@@ -14,9 +17,9 @@ const transporter = nodemailer.createTransport({
 // Verify connection configuration
 transporter.verify(function (error, success) {
     if (error) {
-        console.log("◈ Nodemailer Verification Error (Gmail):", error);
+        console.log("◈ Nodemailer Verification Error (IPv4 fix):", error);
     } else {
-        console.log("◇ Nodemailer is ready to send emails via Gmail");
+        console.log("◇ Nodemailer is ready to send emails via IPv4/587");
     }
 });
 
