@@ -1,12 +1,10 @@
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.resend.com',
-    secure: true,
-    port: 465,
+    service: 'gmail',
     auth: {
-        user: 'resend',
-        pass: process.env.RESEND_API_KEY
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     },
     tls: {
         rejectUnauthorized: false
@@ -16,16 +14,16 @@ const transporter = nodemailer.createTransport({
 // Verify connection configuration
 transporter.verify(function (error, success) {
     if (error) {
-        console.log("◈ Nodemailer Verification Error:", error);
+        console.log("◈ Nodemailer Verification Error (Gmail):", error);
     } else {
-        console.log("◇ Nodemailer is ready to send emails");
+        console.log("◇ Nodemailer is ready to send emails via Gmail");
     }
 });
 
 
 const sendOrderConfirmation = async (email, orderDetails) => {
     const mailOptions = {
-        from: 'NOTO Battery <onboarding@resend.dev>', // Update this to Info@notobattery.com after domain verification
+        from: `"NOTO Battery" <${process.env.EMAIL_USER}>`,
         to: email,
         subject: 'Order Confirmation - NOTO Battery',
         html: `
@@ -55,7 +53,7 @@ const sendOrderConfirmation = async (email, orderDetails) => {
 
 const sendOrderStatusUpdate = async (email, orderDetails) => {
     const mailOptions = {
-        from: 'NOTO Battery <onboarding@resend.dev>', // Update this to Info@notobattery.com after domain verification
+        from: `"NOTO Battery" <${process.env.EMAIL_USER}>`,
         to: email,
         subject: `Order Update: ${orderDetails.orderStatus} - NOTO Battery`,
         html: `
