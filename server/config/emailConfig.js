@@ -1,9 +1,16 @@
 const nodemailer = require('nodemailer');
+const dns = require('dns');
+
+// CRITICAL: Force Node.js to resolve IPv4 addresses first. 
+// This is the definitive fix for ENETUNREACH errors on Render/Node 17+
+if (dns.setDefaultResultOrder) {
+    dns.setDefaultResultOrder('ipv4first');
+}
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
-    secure: true, // true for 465
+    secure: true,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
@@ -11,16 +18,16 @@ const transporter = nodemailer.createTransport({
     tls: {
         rejectUnauthorized: false
     },
-    // Forced IPv4 to avoid ENETUNREACH
+    // Backup: still tell nodemailer to prefer IPv4
     family: 4 
 });
 
 // Verify connection configuration
 transporter.verify(function (error, success) {
     if (error) {
-        console.log("◈ Nodemailer Verification Error (Final Hybrid):", error);
+        console.log("◈ Nodemailer Verification Error (DNS Fix):", error);
     } else {
-        console.log("◇ Nodemailer is ready (Port 465 + IPv4)");
+        console.log("◇ Nodemailer is ready (IPv4 Priority Fixed)");
     }
 });
 
