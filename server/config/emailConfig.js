@@ -1,25 +1,27 @@
 const nodemailer = require('nodemailer');
 
+// Force IPv4 to prevent ENETUNREACH errors on cloud hosting like Render
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
-    secure: false, // true for 465, false for other ports
+    secure: false, // use STARTTLS
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     },
     tls: {
-        // Do not fail on invalid certs
         rejectUnauthorized: false
-    }
+    },
+    // This is the CRITICAL setting to prevent IPv6 errors
+    family: 4 
 });
 
 // Verify connection configuration
 transporter.verify(function (error, success) {
     if (error) {
-        console.log("◈ Nodemailer Verification Error (IPv4 fix):", error);
+        console.log("◈ Nodemailer Verification Error:", error);
     } else {
-        console.log("◇ Nodemailer is ready to send emails via IPv4/587");
+        console.log("◇ Nodemailer is ready (Forced IPv4)");
     }
 });
 
